@@ -2,10 +2,16 @@ package com.example.mockproject.controller;
 
 import com.example.mockproject.model.Book;
 import com.example.mockproject.service.BookService;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
@@ -26,9 +32,11 @@ public class BookController {
     // GET /api/books/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Book> getById(@PathVariable("id") Long id) {
+
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+
     }
 
     // GET /api/books/search?title=...
@@ -39,7 +47,7 @@ public class BookController {
 
     // POST /api/books
     @PostMapping
-    public ResponseEntity<Book> create(@RequestBody Book book) {
+    public ResponseEntity<Book> create(@Valid @RequestBody Book book) {
         Book created = service.create(book);
         return ResponseEntity.status(201).body(created);
     }

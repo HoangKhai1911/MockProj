@@ -2,6 +2,7 @@
 package com.example.mockproject.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "books")
@@ -11,7 +12,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Title is required")
     private String title;
 
     private String author;
